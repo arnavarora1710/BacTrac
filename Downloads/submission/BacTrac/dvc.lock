@@ -1,0 +1,36 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python3 src/models/train_model.py
+    deps:
+    - path: data/processed
+      md5: d751713988987e9331980363e24189ce.dir
+    - path: src/models/train_model.py
+      md5: d41d8cd98f00b204e9800998ecf8427e
+    outs:
+    - path: models
+      md5: d751713988987e9331980363e24189ce.dir
+    - path: reports/training_metrics.txt
+      md5: d41d8cd98f00b204e9800998ecf8427e
+  eval:
+    cmd: python3 src/models/predict_model.py
+    deps:
+    - path: data/processed
+      md5: d751713988987e9331980363e24189ce.dir
+    - path: models
+      md5: d751713988987e9331980363e24189ce.dir
+    - path: src/models/predict_model.py
+      md5: d41d8cd98f00b204e9800998ecf8427e
+    outs:
+    - path: reports/metrics.txt
+      md5: d41d8cd98f00b204e9800998ecf8427e
+  process_data:
+    cmd: python3 src/data/make_dataset.py
+    deps:
+    - path: data/raw
+      md5: d751713988987e9331980363e24189ce.dir
+    - path: src/data/make_dataset.py
+      md5: d41d8cd98f00b204e9800998ecf8427e
+    outs:
+    - path: data/processed
+      md5: d751713988987e9331980363e24189ce.dir
